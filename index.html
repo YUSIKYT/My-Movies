@@ -106,7 +106,7 @@
                     Экшн от первого лица, изменивший правила игры. Погрузитесь в гиперреалистичный боевик, созданный с помощью Sora 2. Весь мир — ваша арена.
                 </p>
                 <div class="flex gap-3 pt-4">
-                    <button onclick="openModal()" class="flex items-center gap-3 bg-white text-black px-6 md:px-10 py-2 md:py-3 rounded hover:bg-white/80 transition-all font-bold">
+                    <button onclick="openModal('youtube')" class="flex items-center gap-3 bg-white text-black px-6 md:px-10 py-2 md:py-3 rounded hover:bg-white/80 transition-all font-bold">
                         <i class="fas fa-play text-xl md:text-2xl"></i>
                         Смотреть
                     </button>
@@ -127,15 +127,23 @@
         <section>
             <h3 class="text-xl md:text-2xl font-bold mb-4">Популярно сейчас</h3>
             <div class="flex gap-2 overflow-x-auto no-scrollbar py-4 px-1">
-                <!-- Карточка нашего фильма -->
-                <div class="movie-card min-w-[200px] md:min-w-[280px] aspect-video rounded-md overflow-hidden bg-zinc-900 shadow-lg relative" onclick="openModal()">
+                <!-- Карточка 1 сезона -->
+                <div class="movie-card min-w-[200px] md:min-w-[280px] aspect-video rounded-md overflow-hidden bg-zinc-900 shadow-lg relative" onclick="openModal('youtube')">
                     <img src="obl.jpg" onerror="this.src='https://raw.githubusercontent.com/Zenitopy/files/main/obl.jpg'" class="w-full h-full object-cover">
                     <div class="absolute inset-0 bg-black/20 flex items-end p-2 opacity-0 hover:opacity-100 transition-opacity">
-                        <span class="text-[10px] font-bold border px-1">ПОСЛЕДНИЙ ПРИКАЗ</span>
+                        <span class="text-[10px] font-bold border px-1 uppercase">Последний приказ: Сезон 1</span>
                     </div>
                 </div>
-                <!-- Заглушки в стиле Netflix -->
-                <div class="movie-card min-w-[200px] md:min-w-[280px] aspect-video rounded-md bg-zinc-800 flex items-center justify-center italic text-zinc-600 text-sm">В разработке</div>
+
+                <!-- Карточка 2 сезона -->
+                <div class="movie-card min-w-[200px] md:min-w-[280px] aspect-video rounded-md overflow-hidden bg-zinc-900 shadow-lg relative" onclick="openModal('drive')">
+                    <img src="obl2.jpg" onerror="this.src='https://raw.githubusercontent.com/Zenitopy/files/main/obl2.jpg'" class="w-full h-full object-cover">
+                    <div class="absolute inset-0 bg-black/20 flex items-end p-2 opacity-0 hover:opacity-100 transition-opacity">
+                        <span class="text-[10px] font-bold border px-1 uppercase">Последний приказ: Сезон 2</span>
+                    </div>
+                </div>
+
+                <!-- Заглушки -->
                 <div class="movie-card min-w-[200px] md:min-w-[280px] aspect-video rounded-md bg-zinc-800 flex items-center justify-center italic text-zinc-600 text-sm">В разработке</div>
                 <div class="movie-card min-w-[200px] md:min-w-[280px] aspect-video rounded-md bg-zinc-800 flex items-center justify-center italic text-zinc-600 text-sm">В разработке</div>
                 <div class="movie-card min-w-[200px] md:min-w-[280px] aspect-video rounded-md bg-zinc-800 flex items-center justify-center italic text-zinc-600 text-sm">В разработке</div>
@@ -146,11 +154,11 @@
         <section>
             <h3 class="text-xl md:text-2xl font-bold mb-4">Новинки</h3>
             <div class="flex gap-2 overflow-x-auto no-scrollbar py-4 px-1">
-                <div class="movie-card min-w-[200px] md:min-w-[280px] aspect-video rounded-md bg-zinc-800 flex items-center justify-center italic text-zinc-600 text-sm">Скоро</div>
-                <div class="movie-card min-w-[200px] md:min-w-[280px] aspect-video rounded-md bg-zinc-800 flex items-center justify-center italic text-zinc-600 text-sm">Скоро</div>
-                <div class="movie-card min-w-[200px] md:min-w-[280px] aspect-video rounded-md overflow-hidden bg-zinc-900" onclick="openModal()">
-                    <img src="obl.jpg" onerror="this.src='https://raw.githubusercontent.com/Zenitopy/files/main/obl.jpg'" class="w-full h-full object-cover">
+                <div class="movie-card min-w-[200px] md:min-w-[280px] aspect-video rounded-md overflow-hidden bg-zinc-900" onclick="openModal('drive')">
+                    <img src="obl2.jpg" onerror="this.src='https://raw.githubusercontent.com/Zenitopy/files/main/obl2.jpg'" class="w-full h-full object-cover">
                 </div>
+                <div class="movie-card min-w-[200px] md:min-w-[280px] aspect-video rounded-md bg-zinc-800 flex items-center justify-center italic text-zinc-600 text-sm">Скоро</div>
+                <div class="movie-card min-w-[200px] md:min-w-[280px] aspect-video rounded-md bg-zinc-800 flex items-center justify-center italic text-zinc-600 text-sm">Скоро</div>
                 <div class="movie-card min-w-[200px] md:min-w-[280px] aspect-video rounded-md bg-zinc-800 flex items-center justify-center italic text-zinc-600 text-sm">Скоро</div>
                 <div class="movie-card min-w-[200px] md:min-w-[280px] aspect-video rounded-md bg-zinc-800 flex items-center justify-center italic text-zinc-600 text-sm">Скоро</div>
             </div>
@@ -200,10 +208,17 @@
             }
         });
 
-        function openModal() {
+        function openModal(type) {
             const modal = document.getElementById('video-modal');
             const frame = document.getElementById('video-frame');
-            frame.src = "https://www.youtube-nocookie.com/embed/SlqgmjTS-Zg?autoplay=1&rel=0";
+            
+            if (type === 'youtube') {
+                frame.src = "https://www.youtube-nocookie.com/embed/SlqgmjTS-Zg?autoplay=1&rel=0";
+            } else if (type === 'drive') {
+                // Прямая ссылка на просмотр Google Диска
+                frame.src = "https://drive.google.com/file/d/1DkLRLgz9lBZqvs2u_B2emgJzGO_zWOVe/preview";
+            }
+            
             modal.style.display = 'flex';
             document.body.style.overflow = 'hidden';
         }
