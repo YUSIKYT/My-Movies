@@ -151,12 +151,21 @@
             <section>
                 <h3 class="text-xl md:text-2xl font-bold mb-4">Популярно сейчас</h3>
                 <div class="flex gap-2 overflow-x-auto no-scrollbar py-4 px-1">
+                    <!-- Новый фильм -->
+                    <div class="movie-card min-w-[200px] md:min-w-[280px] aspect-video rounded-md overflow-hidden bg-zinc-900 shadow-lg relative" onclick="openModal('new')">
+                        <img src="https://img.youtube.com/vi/VOyJHBTW9Eg/maxresdefault.jpg" class="w-full h-full object-cover">
+                        <div class="absolute inset-0 bg-black/20 flex items-end p-2 opacity-0 hover:opacity-100 transition-opacity">
+                            <span class="text-[10px] font-bold border px-1 uppercase">Новый проект</span>
+                        </div>
+                    </div>
+                    <!-- Сезон 1 -->
                     <div class="movie-card min-w-[200px] md:min-w-[280px] aspect-video rounded-md overflow-hidden bg-zinc-900 shadow-lg relative" onclick="openModal('youtube')">
                         <img src="obl.jpg" onerror="this.src='https://raw.githubusercontent.com/Zenitopy/files/main/obl.jpg'" class="w-full h-full object-cover">
                         <div class="absolute inset-0 bg-black/20 flex items-end p-2 opacity-0 hover:opacity-100 transition-opacity">
                             <span class="text-[10px] font-bold border px-1 uppercase">Последний приказ: Сезон 1</span>
                         </div>
                     </div>
+                    <!-- Сезон 2 -->
                     <div class="movie-card min-w-[200px] md:min-w-[280px] aspect-video rounded-md overflow-hidden bg-zinc-900 shadow-lg relative" onclick="openModal('drive')">
                         <img src="obl2.jpg" onerror="this.src='https://raw.githubusercontent.com/Zenitopy/files/main/obl2.jpg'" class="w-full h-full object-cover">
                         <div class="absolute inset-0 bg-black/20 flex items-end p-2 opacity-0 hover:opacity-100 transition-opacity">
@@ -165,16 +174,17 @@
                     </div>
                     <div class="movie-card min-w-[200px] md:min-w-[280px] aspect-video rounded-md bg-zinc-800 flex items-center justify-center italic text-zinc-600 text-sm">В разработке</div>
                     <div class="movie-card min-w-[200px] md:min-w-[280px] aspect-video rounded-md bg-zinc-800 flex items-center justify-center italic text-zinc-600 text-sm">В разработке</div>
-                    <div class="movie-card min-w-[200px] md:min-w-[280px] aspect-video rounded-md bg-zinc-800 flex items-center justify-center italic text-zinc-600 text-sm">В разработке</div>
                 </div>
             </section>
             <section>
                 <h3 class="text-xl md:text-2xl font-bold mb-4">Новинки</h3>
                 <div class="flex gap-2 overflow-x-auto no-scrollbar py-4 px-1">
+                    <div class="movie-card min-w-[200px] md:min-w-[280px] aspect-video rounded-md overflow-hidden bg-zinc-900 shadow-lg relative" onclick="openModal('new')">
+                        <img src="https://img.youtube.com/vi/VOyJHBTW9Eg/maxresdefault.jpg" class="w-full h-full object-cover">
+                    </div>
                     <div class="movie-card min-w-[200px] md:min-w-[280px] aspect-video rounded-md overflow-hidden bg-zinc-900" onclick="openModal('drive')">
                         <img src="obl2.jpg" onerror="this.src='https://raw.githubusercontent.com/Zenitopy/files/main/obl2.jpg'" class="w-full h-full object-cover">
                     </div>
-                    <div class="movie-card min-w-[200px] md:min-w-[280px] aspect-video rounded-md bg-zinc-800 flex items-center justify-center italic text-zinc-600 text-sm">Скоро</div>
                     <div class="movie-card min-w-[200px] md:min-w-[280px] aspect-video rounded-md bg-zinc-800 flex items-center justify-center italic text-zinc-600 text-sm">Скоро</div>
                     <div class="movie-card min-w-[200px] md:min-w-[280px] aspect-video rounded-md bg-zinc-800 flex items-center justify-center italic text-zinc-600 text-sm">Скоро</div>
                     <div class="movie-card min-w-[200px] md:min-w-[280px] aspect-video rounded-md bg-zinc-800 flex items-center justify-center italic text-zinc-600 text-sm">Скоро</div>
@@ -240,7 +250,7 @@
             isLoginMode = !isLoginMode;
             authTitle.innerText = isLoginMode ? "Вход" : "Регистрация";
             authSubmit.innerText = isLoginMode ? "Войти" : "Зарегистрироваться";
-            authToggleText.innerText = isLoginMode ? "Впервые на ZENITOPY CINEMA?" : "Уже есть аквач?";
+            authToggleText.innerText = isLoginMode ? "Впервые на ZENITOPY CINEMA?" : "Уже есть аккаунт?";
             authToggleBtn.innerText = isLoginMode ? "Зарегистрироваться" : "Войти";
         }
 
@@ -317,6 +327,8 @@
                 frame.src = "https://www.youtube-nocookie.com/embed/SlqgmjTS-Zg?autoplay=1&rel=0";
             } else if (type === 'drive') {
                 frame.src = "https://drive.google.com/file/d/1DkLRLgz9lBZqvs2u_B2emgJzGO_zWOVe/preview";
+            } else if (type === 'new') {
+                frame.src = "https://www.youtube-nocookie.com/embed/VOyJHBTW9Eg?autoplay=1&rel=0";
             }
             modal.style.display = 'flex';
             document.body.style.overflow = 'hidden';
