@@ -55,6 +55,17 @@
             z-index: 10;
         }
 
+        /* Gold Card Effect */
+        .gold-card {
+            border: 2px solid #ffd700;
+            box-shadow: 0 0 15px rgba(255, 215, 0, 0.5);
+            animation: gold-glow 3s infinite alternate;
+        }
+        @keyframes gold-glow {
+            from { box-shadow: 0 0 5px rgba(255, 215, 0, 0.3); }
+            to { box-shadow: 0 0 20px rgba(255, 215, 0, 0.8); }
+        }
+
         #video-modal, #auth-screen {
             display: none;
             z-index: 100;
@@ -151,7 +162,14 @@
             <section>
                 <h3 class="text-xl md:text-2xl font-bold mb-4">Популярно сейчас</h3>
                 <div class="flex gap-2 overflow-x-auto no-scrollbar py-4 px-1">
-                    <!-- Новый фильм -->
+                    <!-- Золотой фильм -->
+                    <div class="movie-card gold-card min-w-[200px] md:min-w-[280px] aspect-video rounded-md overflow-hidden bg-zinc-900 shadow-lg relative" onclick="openModal('gold')">
+                        <img src="https://img.youtube.com/vi/2gElGtGUXo4/maxresdefault.jpg" class="w-full h-full object-cover">
+                        <div class="absolute inset-0 bg-black/40 flex items-end p-2 opacity-100 transition-opacity">
+                            <span class="text-[10px] font-black border-2 border-yellow-500 text-yellow-500 px-1 uppercase bg-black/60">ЗОЛОТОЕ ИЗДАНИЕ</span>
+                        </div>
+                    </div>
+                    <!-- Предыдущий фильм -->
                     <div class="movie-card min-w-[200px] md:min-w-[280px] aspect-video rounded-md overflow-hidden bg-zinc-900 shadow-lg relative" onclick="openModal('new')">
                         <img src="https://img.youtube.com/vi/VOyJHBTW9Eg/maxresdefault.jpg" class="w-full h-full object-cover">
                         <div class="absolute inset-0 bg-black/20 flex items-end p-2 opacity-0 hover:opacity-100 transition-opacity">
@@ -172,22 +190,20 @@
                             <span class="text-[10px] font-bold border px-1 uppercase">Последний приказ: Сезон 2</span>
                         </div>
                     </div>
-                    <div class="movie-card min-w-[200px] md:min-w-[280px] aspect-video rounded-md bg-zinc-800 flex items-center justify-center italic text-zinc-600 text-sm">В разработке</div>
-                    <div class="movie-card min-w-[200px] md:min-w-[280px] aspect-video rounded-md bg-zinc-800 flex items-center justify-center italic text-zinc-600 text-sm">В разработке</div>
                 </div>
             </section>
             <section>
                 <h3 class="text-xl md:text-2xl font-bold mb-4">Новинки</h3>
                 <div class="flex gap-2 overflow-x-auto no-scrollbar py-4 px-1">
-                    <div class="movie-card min-w-[200px] md:min-w-[280px] aspect-video rounded-md overflow-hidden bg-zinc-900 shadow-lg relative" onclick="openModal('new')">
+                    <div class="movie-card gold-card min-w-[200px] md:min-w-[280px] aspect-video rounded-md overflow-hidden bg-zinc-900" onclick="openModal('gold')">
+                        <img src="https://img.youtube.com/vi/2gElGtGUXo4/maxresdefault.jpg" class="w-full h-full object-cover">
+                    </div>
+                    <div class="movie-card min-w-[200px] md:min-w-[280px] aspect-video rounded-md overflow-hidden bg-zinc-900" onclick="openModal('new')">
                         <img src="https://img.youtube.com/vi/VOyJHBTW9Eg/maxresdefault.jpg" class="w-full h-full object-cover">
                     </div>
                     <div class="movie-card min-w-[200px] md:min-w-[280px] aspect-video rounded-md overflow-hidden bg-zinc-900" onclick="openModal('drive')">
                         <img src="obl2.jpg" onerror="this.src='https://raw.githubusercontent.com/Zenitopy/files/main/obl2.jpg'" class="w-full h-full object-cover">
                     </div>
-                    <div class="movie-card min-w-[200px] md:min-w-[280px] aspect-video rounded-md bg-zinc-800 flex items-center justify-center italic text-zinc-600 text-sm">Скоро</div>
-                    <div class="movie-card min-w-[200px] md:min-w-[280px] aspect-video rounded-md bg-zinc-800 flex items-center justify-center italic text-zinc-600 text-sm">Скоро</div>
-                    <div class="movie-card min-w-[200px] md:min-w-[280px] aspect-video rounded-md bg-zinc-800 flex items-center justify-center italic text-zinc-600 text-sm">Скоро</div>
                 </div>
             </section>
         </div>
@@ -329,6 +345,8 @@
                 frame.src = "https://drive.google.com/file/d/1DkLRLgz9lBZqvs2u_B2emgJzGO_zWOVe/preview";
             } else if (type === 'new') {
                 frame.src = "https://www.youtube-nocookie.com/embed/VOyJHBTW9Eg?autoplay=1&rel=0";
+            } else if (type === 'gold') {
+                frame.src = "https://www.youtube-nocookie.com/embed/2gElGtGUXo4?autoplay=1&rel=0";
             }
             modal.style.display = 'flex';
             document.body.style.overflow = 'hidden';
