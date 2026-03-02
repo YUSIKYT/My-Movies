@@ -306,17 +306,19 @@
             authScreen.style.display = 'none';
             mainApp.classList.remove('hidden');
             userDisplay.innerText = email;
-            sessionStorage.setItem('isLoggedIn', 'true');
+            // Теперь сохраняем флаг входа в localStorage, чтобы он не пропадал после перезагрузки
+            localStorage.setItem('isLoggedIn', 'true');
         }
 
         function handleLogout() {
-            sessionStorage.removeItem('isLoggedIn');
+            // Удаляем только флаг входа, данные пользователя (email/pass) оставляем в localStorage
+            localStorage.removeItem('isLoggedIn');
             location.reload();
         }
 
         // Проверка сессии при загрузке
         window.onload = function() {
-            const isLoggedIn = sessionStorage.getItem('isLoggedIn');
+            const isLoggedIn = localStorage.getItem('isLoggedIn');
             const storedUser = JSON.parse(localStorage.getItem('zenitopy_user'));
             if (isLoggedIn === 'true' && storedUser) {
                 completeAuth(storedUser.email);
