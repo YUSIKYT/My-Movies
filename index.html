@@ -3,140 +3,203 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Мои Фильмы — ПОСЛЕДНИЙ ПРИКАЗ</title>
+    <title>ZENITOPY CINEMA — ПОСЛЕДНИЙ ПРИКАЗ</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+        
         body {
-            font-family: 'Inter', sans-serif;
-            background-color: #09090b;
+            font-family: 'Roboto', sans-serif;
+            background-color: #141414;
+            color: white;
+            margin: 0;
+            overflow-x: hidden;
         }
-        .hero-gradient {
-            background: linear-gradient(to top, #09090b, transparent);
+
+        /* Netflix Navbar Effect */
+        #navbar {
+            transition: background-color 0.5s;
+            background: linear-gradient(to bottom, rgba(0,0,0,0.7) 10%, transparent);
         }
+        #navbar.scrolled {
+            background-color: #141414;
+        }
+
+        /* Hero Banner */
+        .hero-banner {
+            height: 85vh;
+            background-size: cover;
+            background-position: center;
+            position: relative;
+        }
+        .hero-overlay {
+            background: linear-gradient(77deg, rgba(0,0,0,0.6) 0%, rgba(0,0,0,0) 85%);
+            height: 100%;
+        }
+        .hero-vignette {
+            background: linear-gradient(to top, #141414 0%, transparent 20%);
+            height: 100%;
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+        }
+
+        /* Netflix Card Hover */
+        .movie-card {
+            transition: transform 0.3s ease;
+            cursor: pointer;
+        }
+        .movie-card:hover {
+            transform: scale(1.1);
+            z-index: 10;
+        }
+
         #video-modal {
             display: none;
             z-index: 100;
         }
+
+        /* Hide scrollbar */
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
     </style>
 </head>
-<body class="text-white selection:bg-red-600 selection:text-white">
+<body class="selection:bg-red-600 selection:text-white">
 
-    <!-- Навигация -->
-    <header class="p-6 md:p-10 flex justify-between items-center border-b border-zinc-800/50">
-        <div class="flex items-center gap-2">
-            <i class="fas fa-film text-red-600 text-2xl"></i>
-            <h1 class="text-xl md:text-2xl font-black tracking-tighter uppercase italic">Мои Фильмы</h1>
+    <!-- Навигация в стиле Netflix -->
+    <header id="navbar" class="fixed top-0 w-full z-50 px-4 md:px-12 py-4 flex items-center justify-between">
+        <div class="flex items-center gap-8">
+            <h1 class="text-red-600 text-xl md:text-2xl font-black tracking-tighter uppercase italic">ZENITOPY CINEMA</h1>
+            <nav class="hidden lg:flex gap-5 text-sm font-normal">
+                <a href="#" class="hover:text-zinc-300 transition-colors">Главная</a>
+                <a href="#" class="hover:text-zinc-300 transition-colors">Сериалы</a>
+                <a href="#" class="hover:text-zinc-300 transition-colors">Фильмы</a>
+                <a href="#" class="hover:text-zinc-300 transition-colors">Новинки</a>
+                <a href="#" class="hover:text-zinc-300 transition-colors">Мой список</a>
+            </nav>
         </div>
-        <nav class="hidden md:flex gap-8 text-sm font-medium uppercase tracking-widest text-zinc-400">
-            <a href="#" class="hover:text-white transition-colors">Главная</a>
-            <a href="#" class="hover:text-white transition-colors">Фильмы</a>
-            <a href="#" class="hover:text-white transition-colors">Контакты</a>
-        </nav>
+        <div class="flex items-center gap-5 text-white">
+            <i class="fas fa-search cursor-pointer"></i>
+            <i class="fas fa-bell cursor-pointer"></i>
+            <div class="w-8 h-8 bg-blue-500 rounded flex items-center justify-center text-xs font-bold cursor-pointer">Z</div>
+        </div>
     </header>
 
-    <!-- Главная секция -->
-    <main class="container mx-auto px-6 py-12">
-        <div class="grid lg:grid-cols-2 gap-12 items-center">
-            <!-- Текст -->
-            <div class="space-y-6">
-                <span class="inline-block px-3 py-1 bg-red-600 text-[10px] font-bold tracking-widest uppercase rounded-sm">
-                    Новинка
-                </span>
-                <h2 class="text-5xl md:text-7xl font-black leading-tight uppercase tracking-tighter">
+    <!-- Главный баннер -->
+    <section class="hero-banner" style="background-image: url('obl.jpg'), url('https://raw.githubusercontent.com/Zenitopy/files/main/obl.jpg');">
+        <div class="hero-overlay flex items-center px-4 md:px-12">
+            <div class="max-w-2xl space-y-4 md:space-y-6 pt-20">
+                <div class="flex items-center gap-2">
+                    <span class="text-red-600 font-black text-xl italic">Z</span>
+                    <span class="text-zinc-400 font-bold tracking-widest text-sm uppercase">Фильм</span>
+                </div>
+                <h2 class="text-4xl md:text-7xl font-bold uppercase tracking-tight">
                     ПОСЛЕДНИЙ ПРИКАЗ
                 </h2>
-                
-                <div class="flex flex-wrap gap-4 text-sm text-zinc-400 font-medium">
-                    <div class="flex items-center gap-2">
-                        <i class="far fa-calendar"></i>
-                        <span>2026</span>
-                    </div>
-                    <div class="flex items-center gap-2">
-                        <i class="far fa-clock"></i>
-                        <span>2:20</span>
-                    </div>
-                    <div class="flex items-center gap-2">
-                        <i class="far fa-user"></i>
-                        <span>Zenitopy</span>
-                    </div>
-                </div>
-
-                <p class="text-lg text-zinc-400 leading-relaxed max-w-xl">
-                    Динамичный боевик от первого лица (POV Action), созданный с использованием передовых технологий Sora 2. Погрузитесь в центр событий, где каждое решение принимается за доли секунды.
+                <p class="text-sm md:text-lg text-white font-medium drop-shadow-md max-w-lg">
+                    Экшн от первого лица, изменивший правила игры. Погрузитесь в гиперреалистичный боевик, созданный с помощью Sora 2. Весь мир — ваша арена.
                 </p>
-
-                <div class="flex flex-wrap gap-4 pt-4">
-                    <button onclick="openModal()" class="flex items-center gap-3 bg-white text-black px-8 py-4 rounded-full font-bold hover:bg-zinc-200 transition-all transform hover:scale-105 active:scale-95 shadow-xl shadow-white/10">
-                        <i class="fas fa-play"></i>
-                        СМОТРЕТЬ СЕЙЧАС
+                <div class="flex gap-3 pt-4">
+                    <button onclick="openModal()" class="flex items-center gap-3 bg-white text-black px-6 md:px-10 py-2 md:py-3 rounded hover:bg-white/80 transition-all font-bold">
+                        <i class="fas fa-play text-xl md:text-2xl"></i>
+                        Смотреть
                     </button>
-                    <button class="flex items-center gap-3 border border-zinc-700 px-8 py-4 rounded-full font-bold hover:bg-zinc-800 transition-all">
-                        <i class="fas fa-info-circle"></i>
-                        О ПРОЕКТЕ
+                    <button class="flex items-center gap-3 bg-zinc-500/50 text-white px-6 md:px-10 py-2 md:py-3 rounded hover:bg-zinc-500/30 transition-all font-bold backdrop-blur-sm">
+                        <i class="fas fa-info-circle text-xl md:text-2xl"></i>
+                        Подробнее
                     </button>
-                </div>
-            </div>
-
-            <!-- Обложка (ВШИТА В КОД) -->
-            <div class="relative group cursor-pointer" onclick="openModal()">
-                <div class="absolute -inset-1 bg-gradient-to-r from-red-600 to-purple-600 rounded-2xl blur opacity-25 group-hover:opacity-50 transition duration-1000"></div>
-                <div class="relative aspect-video overflow-hidden rounded-2xl border border-zinc-800 bg-zinc-900 shadow-2xl transition-transform duration-500 group-hover:scale-[1.01]">
-                    <!-- Изображение вставлено как локальный файл obl.jpg -->
-                    <img src="obl.jpg" onerror="this.src='https://raw.githubusercontent.com/Zenitopy/files/main/obl.jpg'" alt="Обложка ПОСЛЕДНИЙ ПРИКАЗ" class="w-full h-full object-cover">
-                    <div class="absolute inset-0 flex items-center justify-center bg-black/40 group-hover:bg-black/20 transition-colors">
-                        <div class="w-20 h-20 flex items-center justify-center bg-red-600 rounded-full text-white text-3xl shadow-2xl shadow-red-600/50">
-                            <i class="fas fa-play ml-1"></i>
-                        </div>
-                    </div>
-                    <div class="absolute bottom-6 left-6 flex gap-2">
-                        <span class="px-2 py-1 bg-black/50 backdrop-blur-md border border-white/10 text-[10px] uppercase font-bold tracking-widest rounded">Action</span>
-                        <span class="px-2 py-1 bg-black/50 backdrop-blur-md border border-white/10 text-[10px] uppercase font-bold tracking-widest rounded">POV</span>
-                        <span class="px-2 py-1 bg-black/50 backdrop-blur-md border border-white/10 text-[10px] uppercase font-bold tracking-widest rounded">Sora 2</span>
-                    </div>
                 </div>
             </div>
         </div>
+        <div class="hero-vignette"></div>
+    </section>
 
-        <!-- Дополнительный список -->
-        <section class="mt-32 border-t border-zinc-900 pt-16">
-            <h3 class="text-2xl font-black uppercase tracking-tight mb-10">Каталог</h3>
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 text-center md:text-left">
-                <div class="group cursor-pointer" onclick="openModal()">
-                    <div class="aspect-video overflow-hidden rounded-xl bg-zinc-900 mb-4 border border-zinc-800 transition-all group-hover:border-red-600">
-                        <img src="obl.jpg" onerror="this.src='https://raw.githubusercontent.com/Zenitopy/files/main/obl.jpg'" alt="Превью" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
+    <!-- Ряды контента -->
+    <div class="px-4 md:px-12 -mt-16 relative z-10 space-y-12 pb-20">
+        
+        <!-- Ряд 1 -->
+        <section>
+            <h3 class="text-xl md:text-2xl font-bold mb-4">Популярно сейчас</h3>
+            <div class="flex gap-2 overflow-x-auto no-scrollbar py-4 px-1">
+                <!-- Карточка нашего фильма -->
+                <div class="movie-card min-w-[200px] md:min-w-[280px] aspect-video rounded-md overflow-hidden bg-zinc-900 shadow-lg relative" onclick="openModal()">
+                    <img src="obl.jpg" onerror="this.src='https://raw.githubusercontent.com/Zenitopy/files/main/obl.jpg'" class="w-full h-full object-cover">
+                    <div class="absolute inset-0 bg-black/20 flex items-end p-2 opacity-0 hover:opacity-100 transition-opacity">
+                        <span class="text-[10px] font-bold border px-1">ПОСЛЕДНИЙ ПРИКАЗ</span>
                     </div>
-                    <h4 class="font-bold text-lg uppercase group-hover:text-red-500 transition-colors">ПОСЛЕДНИЙ ПРИКАЗ</h4>
-                    <p class="text-zinc-500 text-sm">2026 • Экшн</p>
                 </div>
-                <!-- Заглушка для будущего -->
-                <div class="aspect-video rounded-xl bg-zinc-900/50 border border-dashed border-zinc-800 flex items-center justify-center text-zinc-700 font-bold uppercase tracking-widest italic">
-                    Скоро в прокате
-                </div>
-                <div class="aspect-video rounded-xl bg-zinc-900/50 border border-dashed border-zinc-800 flex items-center justify-center text-zinc-700 font-bold uppercase tracking-widest italic">
-                    Скоро в прокате
-                </div>
+                <!-- Заглушки в стиле Netflix -->
+                <div class="movie-card min-w-[200px] md:min-w-[280px] aspect-video rounded-md bg-zinc-800 flex items-center justify-center italic text-zinc-600 text-sm">В разработке</div>
+                <div class="movie-card min-w-[200px] md:min-w-[280px] aspect-video rounded-md bg-zinc-800 flex items-center justify-center italic text-zinc-600 text-sm">В разработке</div>
+                <div class="movie-card min-w-[200px] md:min-w-[280px] aspect-video rounded-md bg-zinc-800 flex items-center justify-center italic text-zinc-600 text-sm">В разработке</div>
+                <div class="movie-card min-w-[200px] md:min-w-[280px] aspect-video rounded-md bg-zinc-800 flex items-center justify-center italic text-zinc-600 text-sm">В разработке</div>
             </div>
         </section>
-    </main>
 
-    <!-- Модальное окно для видео -->
+        <!-- Ряд 2 -->
+        <section>
+            <h3 class="text-xl md:text-2xl font-bold mb-4">Новинки</h3>
+            <div class="flex gap-2 overflow-x-auto no-scrollbar py-4 px-1">
+                <div class="movie-card min-w-[200px] md:min-w-[280px] aspect-video rounded-md bg-zinc-800 flex items-center justify-center italic text-zinc-600 text-sm">Скоро</div>
+                <div class="movie-card min-w-[200px] md:min-w-[280px] aspect-video rounded-md bg-zinc-800 flex items-center justify-center italic text-zinc-600 text-sm">Скоро</div>
+                <div class="movie-card min-w-[200px] md:min-w-[280px] aspect-video rounded-md overflow-hidden bg-zinc-900" onclick="openModal()">
+                    <img src="obl.jpg" onerror="this.src='https://raw.githubusercontent.com/Zenitopy/files/main/obl.jpg'" class="w-full h-full object-cover">
+                </div>
+                <div class="movie-card min-w-[200px] md:min-w-[280px] aspect-video rounded-md bg-zinc-800 flex items-center justify-center italic text-zinc-600 text-sm">Скоро</div>
+                <div class="movie-card min-w-[200px] md:min-w-[280px] aspect-video rounded-md bg-zinc-800 flex items-center justify-center italic text-zinc-600 text-sm">Скоро</div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Модальное окно -->
     <div id="video-modal" class="fixed inset-0 bg-black/95 flex items-center justify-center p-4">
-        <button onclick="closeModal()" class="absolute top-6 right-6 text-white text-3xl hover:text-red-600">
+        <button onclick="closeModal()" class="absolute top-6 right-6 text-white text-3xl hover:text-red-600 z-[110]">
             <i class="fas fa-times"></i>
         </button>
-        <div class="w-full max-w-5xl aspect-video bg-black rounded-xl overflow-hidden shadow-2xl border border-zinc-800">
+        <div class="w-full max-w-5xl aspect-video bg-black rounded-xl overflow-hidden shadow-2xl border border-zinc-800 relative">
             <iframe id="video-frame" class="w-full h-full" src="" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen referrerpolicy="no-referrer-when-downgrade"></iframe>
         </div>
     </div>
 
     <!-- Футер -->
-    <footer class="p-12 border-t border-zinc-900 text-center text-zinc-600 text-sm mt-20">
-        <p>© 2026 Zenitopy Studios. Все права защищены.</p>
+    <footer class="p-12 border-t border-zinc-800 text-zinc-500 text-sm md:px-48">
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-8 mb-8">
+            <ul class="space-y-3">
+                <li class="hover:underline cursor-pointer">Аудиодескрипция</li>
+                <li class="hover:underline cursor-pointer">Связь с нами</li>
+                <li class="hover:underline cursor-pointer">Конфиденциальность</li>
+            </ul>
+            <ul class="space-y-3">
+                <li class="hover:underline cursor-pointer">Центр поддержки</li>
+                <li class="hover:underline cursor-pointer">Вакансии</li>
+                <li class="hover:underline cursor-pointer">Юридические уведомления</li>
+            </ul>
+            <ul class="space-y-3">
+                <li class="hover:underline cursor-pointer">Подарочные карты</li>
+                <li class="hover:underline cursor-pointer">Условия использования</li>
+                <li class="hover:underline cursor-pointer">Настройки куки</li>
+            </ul>
+        </div>
+        <p>© 2026 ZENITOPY CINEMA. Все права защищены.</p>
     </footer>
 
     <script>
+        // Эффект прозрачности шапки при скролле
+        window.addEventListener('scroll', function() {
+            const navbar = document.getElementById('navbar');
+            if (window.scrollY > 50) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
+
         function openModal() {
             const modal = document.getElementById('video-modal');
             const frame = document.getElementById('video-frame');
