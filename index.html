@@ -62,7 +62,7 @@
             to { box-shadow: 0 0 20px rgba(255, 215, 0, 0.8); }
         }
 
-        #video-modal, #auth-screen {
+        #video-modal, #auth-screen, #profile-screen {
             display: none;
             z-index: 100;
         }
@@ -81,7 +81,6 @@
             scrollbar-width: none;
         }
 
-        /* Search input style */
         .search-container input {
             width: 0;
             transition: width 0.4s ease, padding 0.4s ease;
@@ -96,6 +95,15 @@
 
         .liked {
             color: #ef4444 !important;
+        }
+
+        .avatar-option {
+            cursor: pointer;
+            transition: border 0.2s;
+            border: 4px solid transparent;
+        }
+        .avatar-option.selected {
+            border-color: #ef4444;
         }
     </style>
 </head>
@@ -117,13 +125,52 @@
         </div>
     </div>
 
+    <!-- Экран профиля -->
+    <div id="profile-screen" class="fixed inset-0 bg-[#141414] z-[2000] overflow-y-auto">
+        <header class="p-6 flex items-center justify-between border-b border-zinc-800">
+            <h2 class="text-2xl font-bold">Управление профилем</h2>
+            <button onclick="closeProfile()" class="text-white text-xl hover:text-red-600"><i class="fas fa-times"></i></button>
+        </header>
+        
+        <div class="max-w-4xl mx-auto p-8">
+            <div class="flex flex-col md:flex-row gap-12 items-center md:items-start">
+                <!-- Смена аватара -->
+                <div class="space-y-6 text-center">
+                    <div id="current-profile-img" class="w-40 h-40 rounded bg-blue-500 flex items-center justify-center text-5xl font-bold overflow-hidden">Z</div>
+                    <div class="grid grid-cols-3 gap-2">
+                        <div onclick="selectAvatar('bg-blue-500', 'Z')" class="avatar-option w-12 h-12 bg-blue-500 rounded flex items-center justify-center text-xs font-bold">Z</div>
+                        <div onclick="selectAvatar('bg-red-600', 'A')" class="avatar-option w-12 h-12 bg-red-600 rounded flex items-center justify-center text-xs font-bold">A</div>
+                        <div onclick="selectAvatar('bg-green-600', 'X')" class="avatar-option w-12 h-12 bg-green-600 rounded flex items-center justify-center text-xs font-bold">X</div>
+                    </div>
+                </div>
+
+                <!-- Настройки имени -->
+                <div class="flex-1 space-y-8 w-full">
+                    <div>
+                        <label class="block text-zinc-500 mb-2 uppercase text-xs font-bold">Имя пользователя</label>
+                        <input type="text" id="profile-name-input" class="w-full p-3 bg-zinc-800 rounded border border-transparent focus:border-red-600 outline-none text-xl">
+                    </div>
+                    <button onclick="saveProfile()" class="bg-white text-black px-8 py-2 rounded font-bold hover:bg-zinc-200 transition">Сохранить</button>
+                </div>
+            </div>
+
+            <!-- Список избранного в профиле -->
+            <div class="mt-20">
+                <h3 class="text-2xl font-bold mb-6">Ваш избранный список</h3>
+                <div id="profile-fav-grid" class="flex gap-4 overflow-x-auto no-scrollbar py-4">
+                    <!-- Заполняется JS -->
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- Основной контент -->
     <div id="main-app" class="hidden">
         <header id="navbar" class="fixed top-0 w-full z-50 px-4 md:px-12 py-4 flex items-center justify-between">
             <div class="flex items-center gap-8">
                 <h1 class="text-red-600 text-xl md:text-2xl font-black tracking-tighter uppercase italic">ZENITOPY CINEMA</h1>
                 <nav class="hidden lg:flex gap-5 text-sm font-normal">
-                    <a href="#" class="hover:text-zinc-300 transition-colors">Главная</a>
+                    <a href="#" onclick="closeProfile()" class="hover:text-zinc-300 transition-colors">Главная</a>
                     <a href="#popular" class="hover:text-zinc-300 transition-colors">Фильмы</a>
                     <a href="#history-section" class="hover:text-zinc-300 transition-colors">История</a>
                     <a href="#mylist-section" class="hover:text-zinc-300 transition-colors">Мой список</a>
@@ -137,7 +184,8 @@
                 </div>
                 <span id="user-display" class="text-xs text-zinc-400 hidden md:block"></span>
                 <button onclick="handleLogout()" class="text-xs bg-zinc-800 px-3 py-1 rounded hover:bg-zinc-700">Выйти</button>
-                <div class="w-8 h-8 bg-blue-500 rounded flex items-center justify-center text-xs font-bold cursor-pointer">Z</div>
+                <!-- Кнопка профиля -->
+                <div id="nav-avatar" onclick="openProfile()" class="w-8 h-8 bg-blue-500 rounded flex items-center justify-center text-xs font-bold cursor-pointer hover:ring-2 hover:ring-white transition-all">Z</div>
             </div>
         </header>
 
@@ -166,29 +214,22 @@
 
         <!-- Ряды контента -->
         <div class="px-4 md:px-12 -mt-16 relative z-10 space-y-12 pb-20">
-            
-            <!-- Популярное -->
             <section id="popular">
                 <h3 class="text-xl md:text-2xl font-bold mb-4">Популярно сейчас</h3>
-                <div id="movies-grid" class="flex gap-4 overflow-x-auto no-scrollbar py-4 px-1">
-                    <!-- Карточки будут управляться JS для поиска и функций -->
-                </div>
+                <div id="movies-grid" class="flex gap-4 overflow-x-auto no-scrollbar py-4 px-1"></div>
             </section>
 
-            <!-- Мой список (Избранное) -->
             <section id="mylist-section" class="hidden">
                 <h3 class="text-xl md:text-2xl font-bold mb-4 text-red-500"><i class="fas fa-plus mr-2"></i>Мой список</h3>
                 <div id="mylist-grid" class="flex gap-4 overflow-x-auto no-scrollbar py-4 px-1"></div>
             </section>
 
-            <!-- История просмотров -->
             <section id="history-section" class="hidden">
                 <h3 class="text-xl md:text-2xl font-bold mb-4 text-zinc-400"><i class="fas fa-history mr-2"></i>История просмотров</h3>
                 <div id="history-grid" class="flex gap-4 overflow-x-auto no-scrollbar py-4 px-1"></div>
             </section>
         </div>
 
-        <!-- Футер -->
         <footer class="p-12 border-t border-zinc-800 text-zinc-500 text-sm md:px-48">
             <div class="grid grid-cols-2 md:grid-cols-4 gap-8 mb-8">
                 <ul class="space-y-3"><li class="hover:underline cursor-pointer">Аудиодескрипция</li><li class="hover:underline cursor-pointer">Связь с нами</li><li class="hover:underline cursor-pointer">Конфиденциальность</li></ul>
@@ -209,7 +250,6 @@
     </div>
 
     <script>
-        // Данные фильмов
         const movies = [
             { id: 'gold', title: 'ЗОЛОТОЕ ИЗДАНИЕ', type: 'gold', img: 'https://img.youtube.com/vi/2gElGtGUXo4/maxresdefault.jpg', video: 'https://www.youtube-nocookie.com/embed/2gElGtGUXo4?autoplay=1' },
             { id: 'new', title: 'Новый проект', type: 'standard', img: 'https://img.youtube.com/vi/VOyJHBTW9Eg/maxresdefault.jpg', video: 'https://www.youtube-nocookie.com/embed/VOyJHBTW9Eg?autoplay=1' },
@@ -220,24 +260,60 @@
         let favorites = JSON.parse(localStorage.getItem('zen_favorites')) || [];
         let likes = JSON.parse(localStorage.getItem('zen_likes')) || [];
         let history = JSON.parse(localStorage.getItem('zen_history')) || [];
+        let profileData = JSON.parse(localStorage.getItem('zen_profile')) || { name: 'Zenitopy Fan', bgColor: 'bg-blue-500', char: 'Z' };
 
-        // Авторизация
         const authScreen = document.getElementById('auth-screen');
         const mainApp = document.getElementById('main-app');
-        const emailInput = document.getElementById('auth-email');
-        const passwordInput = document.getElementById('auth-password');
+        const profileScreen = document.getElementById('profile-screen');
 
-        function completeAuth(email) {
-            authScreen.style.display = 'none';
-            mainApp.classList.remove('hidden');
-            document.getElementById('user-display').innerText = email;
-            localStorage.setItem('isLoggedIn', 'true');
+        // Профиль
+        function openProfile() {
+            profileScreen.style.display = 'block';
+            document.getElementById('profile-name-input').value = profileData.name;
+            updateProfileUI();
+        }
+
+        function closeProfile() {
+            profileScreen.style.display = 'none';
+        }
+
+        function selectAvatar(color, char) {
+            profileData.bgColor = color;
+            profileData.char = char;
+            updateProfileUI();
+        }
+
+        function updateProfileUI() {
+            const currentImg = document.getElementById('current-profile-img');
+            const navAvatar = document.getElementById('nav-avatar');
+            
+            [currentImg, navAvatar].forEach(el => {
+                el.className = `w-40 h-40 rounded flex items-center justify-center text-5xl font-bold ${profileData.bgColor}`;
+                if(el === navAvatar) el.className = `w-8 h-8 rounded flex items-center justify-center text-xs font-bold cursor-pointer hover:ring-2 hover:ring-white transition-all ${profileData.bgColor}`;
+                el.innerText = profileData.char;
+            });
             renderAll();
         }
 
+        function saveProfile() {
+            profileData.name = document.getElementById('profile-name-input').value;
+            localStorage.setItem('zen_profile', JSON.stringify(profileData));
+            alert("Профиль обновлен!");
+            closeProfile();
+        }
+
+        // Авторизация
+        function completeAuth(email) {
+            authScreen.style.display = 'none';
+            mainApp.classList.remove('hidden');
+            document.getElementById('user-display').innerText = profileData.name || email;
+            localStorage.setItem('isLoggedIn', 'true');
+            updateProfileUI();
+        }
+
         document.getElementById('auth-submit').onclick = () => {
-            const email = emailInput.value;
-            const pass = passwordInput.value;
+            const email = document.getElementById('auth-email').value;
+            const pass = document.getElementById('auth-password').value;
             if(email.includes('@') && pass.length >= 6) {
                 localStorage.setItem('zenitopy_user', JSON.stringify({email, pass}));
                 completeAuth(email);
@@ -249,16 +325,13 @@
             location.reload();
         }
 
-        // Плеер и История
-        function openModal(videoId, title) {
-            const movie = movies.find(m => m.id === videoId || m.title === title);
+        // Плеер
+        function openModal(videoId) {
+            const movie = movies.find(m => m.id === videoId);
             if (!movie) return;
-
             document.getElementById('video-frame').src = movie.video;
             document.getElementById('video-modal').style.display = 'flex';
             document.body.style.overflow = 'hidden';
-
-            // Сохраняем в историю (без дублей в начале)
             history = history.filter(h => h.id !== movie.id);
             history.unshift(movie);
             if(history.length > 10) history.pop();
@@ -272,7 +345,6 @@
             document.body.style.overflow = 'auto';
         }
 
-        // Функции лайков и избранного
         function toggleFavorite(id, event) {
             event.stopPropagation();
             if(favorites.includes(id)) favorites = favorites.filter(f => f !== id);
@@ -289,23 +361,17 @@
             renderAll();
         }
 
-        // Отрисовка
         function createCard(movie) {
             const isFav = favorites.includes(movie.id);
             const isLiked = likes.includes(movie.id);
             const goldClass = movie.type === 'gold' ? 'gold-card' : '';
-            
             return `
                 <div class="movie-card ${goldClass} min-w-[200px] md:min-w-[280px] aspect-video rounded-md overflow-hidden bg-zinc-900 shadow-lg relative" onclick="openModal('${movie.id}')">
                     <img src="${movie.img}" class="w-full h-full object-cover">
                     <div class="absolute inset-0 bg-black/40 flex flex-col justify-between p-2 opacity-0 hover:opacity-100 transition-opacity">
                         <div class="flex justify-end gap-2">
-                            <button onclick="toggleLike('${movie.id}', event)" class="text-white hover:scale-125 transition ${isLiked ? 'liked' : ''}">
-                                <i class="fas fa-thumbs-up"></i>
-                            </button>
-                            <button onclick="toggleFavorite('${movie.id}', event)" class="text-white hover:scale-125 transition ${isFav ? 'text-red-500' : ''}">
-                                <i class="${isFav ? 'fas' : 'far'} fa-plus-square"></i>
-                            </button>
+                            <button onclick="toggleLike('${movie.id}', event)" class="text-white hover:scale-125 transition ${isLiked ? 'liked' : ''}"><i class="fas fa-thumbs-up"></i></button>
+                            <button onclick="toggleFavorite('${movie.id}', event)" class="text-white hover:scale-125 transition ${isFav ? 'text-red-500' : ''}"><i class="${isFav ? 'fas' : 'far'} fa-plus-square"></i></button>
                         </div>
                         <span class="text-[10px] font-bold border px-1 uppercase self-start bg-black/60">${movie.title}</span>
                     </div>
@@ -316,26 +382,22 @@
         function renderAll(filter = "") {
             const grid = document.getElementById('movies-grid');
             const favGrid = document.getElementById('mylist-grid');
+            const profileFavGrid = document.getElementById('profile-fav-grid');
             const histGrid = document.getElementById('history-grid');
 
-            // Основной список и Поиск
             const filteredMovies = movies.filter(m => m.title.toLowerCase().includes(filter.toLowerCase()));
             grid.innerHTML = filteredMovies.map(createCard).join('');
 
-            // Избранное
             const favMovies = movies.filter(m => favorites.includes(m.id));
             document.getElementById('mylist-section').classList.toggle('hidden', favMovies.length === 0);
             favGrid.innerHTML = favMovies.map(createCard).join('');
+            profileFavGrid.innerHTML = favMovies.length > 0 ? favMovies.map(createCard).join('') : '<p class="text-zinc-500">Список пока пуст...</p>';
 
-            // История
             document.getElementById('history-section').classList.toggle('hidden', history.length === 0);
             histGrid.innerHTML = history.map(createCard).join('');
         }
 
-        // Поиск
-        document.getElementById('movie-search').oninput = (e) => {
-            renderAll(e.target.value);
-        };
+        document.getElementById('movie-search').oninput = (e) => renderAll(e.target.value);
 
         window.onload = () => {
             const isLoggedIn = localStorage.getItem('isLoggedIn');
