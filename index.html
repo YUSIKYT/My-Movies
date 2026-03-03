@@ -17,7 +17,6 @@
             overflow-x: hidden;
         }
 
-        /* Navbar Effect */
         #navbar {
             transition: background-color 0.5s;
             background: linear-gradient(to bottom, rgba(0,0,0,0.7) 10%, transparent);
@@ -26,7 +25,6 @@
             background-color: #141414;
         }
 
-        /* Hero Banner */
         .hero-banner {
             height: 85vh;
             background-size: cover;
@@ -45,7 +43,6 @@
             width: 100%;
         }
 
-        /* Card Hover */
         .movie-card {
             transition: transform 0.3s ease;
             cursor: pointer;
@@ -55,7 +52,6 @@
             z-index: 10;
         }
 
-        /* Gold Card Effect */
         .gold-card {
             border: 2px solid #ffd700;
             box-shadow: 0 0 15px rgba(255, 215, 0, 0.5);
@@ -77,13 +73,29 @@
             background-position: center;
         }
 
-        /* Hide scrollbar */
         .no-scrollbar::-webkit-scrollbar {
             display: none;
         }
         .no-scrollbar {
             -ms-overflow-style: none;
             scrollbar-width: none;
+        }
+
+        /* Search input style */
+        .search-container input {
+            width: 0;
+            transition: width 0.4s ease, padding 0.4s ease;
+            overflow: hidden;
+        }
+        .search-container:hover input, .search-container input:focus {
+            width: 200px;
+            padding: 0.5rem;
+            background: rgba(0,0,0,0.8);
+            border: 1px solid #333;
+        }
+
+        .liked {
+            color: #ef4444 !important;
         }
     </style>
 </head>
@@ -105,23 +117,24 @@
         </div>
     </div>
 
-    <!-- Основной контент (скрыт по умолчанию) -->
+    <!-- Основной контент -->
     <div id="main-app" class="hidden">
-        <!-- Навигация -->
         <header id="navbar" class="fixed top-0 w-full z-50 px-4 md:px-12 py-4 flex items-center justify-between">
             <div class="flex items-center gap-8">
                 <h1 class="text-red-600 text-xl md:text-2xl font-black tracking-tighter uppercase italic">ZENITOPY CINEMA</h1>
                 <nav class="hidden lg:flex gap-5 text-sm font-normal">
                     <a href="#" class="hover:text-zinc-300 transition-colors">Главная</a>
-                    <a href="#" class="hover:text-zinc-300 transition-colors">Сериалы</a>
-                    <a href="#" class="hover:text-zinc-300 transition-colors">Фильмы</a>
-                    <a href="#" class="hover:text-zinc-300 transition-colors">Новинки</a>
-                    <a href="#" class="hover:text-zinc-300 transition-colors">Мой список</a>
+                    <a href="#popular" class="hover:text-zinc-300 transition-colors">Фильмы</a>
+                    <a href="#history-section" class="hover:text-zinc-300 transition-colors">История</a>
+                    <a href="#mylist-section" class="hover:text-zinc-300 transition-colors">Мой список</a>
                     <a href="https://www.donationalerts.com/r/yusikittt" target="_blank" class="text-orange-500 hover:text-orange-400 transition-colors font-bold"><i class="fas fa-heart mr-1"></i> Поддержать</a>
                 </nav>
             </div>
             <div class="flex items-center gap-5 text-white">
-                <i class="fas fa-search cursor-pointer"></i>
+                <div class="search-container flex items-center gap-2">
+                    <input type="text" id="movie-search" placeholder="Поиск фильма..." class="text-sm rounded focus:outline-none">
+                    <i class="fas fa-search cursor-pointer"></i>
+                </div>
                 <span id="user-display" class="text-xs text-zinc-400 hidden md:block"></span>
                 <button onclick="handleLogout()" class="text-xs bg-zinc-800 px-3 py-1 rounded hover:bg-zinc-700">Выйти</button>
                 <div class="w-8 h-8 bg-blue-500 rounded flex items-center justify-center text-xs font-bold cursor-pointer">Z</div>
@@ -136,20 +149,14 @@
                         <span class="text-red-600 font-black text-xl italic">Z</span>
                         <span class="text-zinc-400 font-bold tracking-widest text-sm uppercase">Фильм</span>
                     </div>
-                    <h2 class="text-4xl md:text-7xl font-bold uppercase tracking-tight">
-                        ПОСЛЕДНИЙ ПРИКАЗ
-                    </h2>
-                    <p class="text-sm md:text-lg text-white font-medium drop-shadow-md max-w-lg">
-                        Экшн от первого лица, изменивший правила игры. Погрузитесь в гиперреалистичный боевик, созданный с помощью Sora 2. Весь мир — ваша арена.
-                    </p>
+                    <h2 class="text-4xl md:text-7xl font-bold uppercase tracking-tight">ПОСЛЕДНИЙ ПРИКАЗ</h2>
+                    <p class="text-sm md:text-lg text-white font-medium drop-shadow-md max-w-lg">Экшн от первого лица, изменивший правила игры. Погрузитесь в гиперреалистичный боевик, созданный с помощью Sora 2. Весь мир — ваша арена.</p>
                     <div class="flex gap-3 pt-4">
-                        <button onclick="openModal('youtube')" class="flex items-center gap-3 bg-white text-black px-6 md:px-10 py-2 md:py-3 rounded hover:bg-white/80 transition-all font-bold">
-                            <i class="fas fa-play text-xl md:text-2xl"></i>
-                            Смотреть
+                        <button onclick="openModal('youtube', 'Последний приказ')" class="flex items-center gap-3 bg-white text-black px-6 md:px-10 py-2 md:py-3 rounded hover:bg-white/80 transition-all font-bold">
+                            <i class="fas fa-play text-xl md:text-2xl"></i> Смотреть
                         </button>
                         <button class="flex items-center gap-3 bg-zinc-500/50 text-white px-6 md:px-10 py-2 md:py-3 rounded hover:bg-zinc-500/30 transition-all font-bold backdrop-blur-sm">
-                            <i class="fas fa-info-circle text-xl md:text-2xl"></i>
-                            Подробнее
+                            <i class="fas fa-info-circle text-xl md:text-2xl"></i> Подробнее
                         </button>
                     </div>
                 </div>
@@ -159,213 +166,189 @@
 
         <!-- Ряды контента -->
         <div class="px-4 md:px-12 -mt-16 relative z-10 space-y-12 pb-20">
-            <section>
+            
+            <!-- Популярное -->
+            <section id="popular">
                 <h3 class="text-xl md:text-2xl font-bold mb-4">Популярно сейчас</h3>
-                <div class="flex gap-2 overflow-x-auto no-scrollbar py-4 px-1">
-                    <!-- Золотой фильм -->
-                    <div class="movie-card gold-card min-w-[200px] md:min-w-[280px] aspect-video rounded-md overflow-hidden bg-zinc-900 shadow-lg relative" onclick="openModal('gold')">
-                        <img src="https://img.youtube.com/vi/2gElGtGUXo4/maxresdefault.jpg" class="w-full h-full object-cover">
-                        <div class="absolute inset-0 bg-black/40 flex items-end p-2 opacity-100 transition-opacity">
-                            <span class="text-[10px] font-black border-2 border-yellow-500 text-yellow-500 px-1 uppercase bg-black/60">ЗОЛОТОЕ ИЗДАНИЕ</span>
-                        </div>
-                    </div>
-                    <!-- Предыдущий фильм -->
-                    <div class="movie-card min-w-[200px] md:min-w-[280px] aspect-video rounded-md overflow-hidden bg-zinc-900 shadow-lg relative" onclick="openModal('new')">
-                        <img src="https://img.youtube.com/vi/VOyJHBTW9Eg/maxresdefault.jpg" class="w-full h-full object-cover">
-                        <div class="absolute inset-0 bg-black/20 flex items-end p-2 opacity-0 hover:opacity-100 transition-opacity">
-                            <span class="text-[10px] font-bold border px-1 uppercase">Новый проект</span>
-                        </div>
-                    </div>
-                    <!-- Сезон 1 -->
-                    <div class="movie-card min-w-[200px] md:min-w-[280px] aspect-video rounded-md overflow-hidden bg-zinc-900 shadow-lg relative" onclick="openModal('youtube')">
-                        <img src="obl.jpg" onerror="this.src='https://raw.githubusercontent.com/Zenitopy/files/main/obl.jpg'" class="w-full h-full object-cover">
-                        <div class="absolute inset-0 bg-black/20 flex items-end p-2 opacity-0 hover:opacity-100 transition-opacity">
-                            <span class="text-[10px] font-bold border px-1 uppercase">Последний приказ: Сезон 1</span>
-                        </div>
-                    </div>
-                    <!-- Сезон 2 -->
-                    <div class="movie-card min-w-[200px] md:min-w-[280px] aspect-video rounded-md overflow-hidden bg-zinc-900 shadow-lg relative" onclick="openModal('drive')">
-                        <img src="obl2.jpg" onerror="this.src='https://raw.githubusercontent.com/Zenitopy/files/main/obl2.jpg'" class="w-full h-full object-cover">
-                        <div class="absolute inset-0 bg-black/20 flex items-end p-2 opacity-0 hover:opacity-100 transition-opacity">
-                            <span class="text-[10px] font-bold border px-1 uppercase">Последний приказ: Сезон 2</span>
-                        </div>
-                    </div>
+                <div id="movies-grid" class="flex gap-4 overflow-x-auto no-scrollbar py-4 px-1">
+                    <!-- Карточки будут управляться JS для поиска и функций -->
                 </div>
             </section>
-            <section>
-                <h3 class="text-xl md:text-2xl font-bold mb-4">Новинки</h3>
-                <div class="flex gap-2 overflow-x-auto no-scrollbar py-4 px-1">
-                    <div class="movie-card gold-card min-w-[200px] md:min-w-[280px] aspect-video rounded-md overflow-hidden bg-zinc-900" onclick="openModal('gold')">
-                        <img src="https://img.youtube.com/vi/2gElGtGUXo4/maxresdefault.jpg" class="w-full h-full object-cover">
-                    </div>
-                    <div class="movie-card min-w-[200px] md:min-w-[280px] aspect-video rounded-md overflow-hidden bg-zinc-900" onclick="openModal('new')">
-                        <img src="https://img.youtube.com/vi/VOyJHBTW9Eg/maxresdefault.jpg" class="w-full h-full object-cover">
-                    </div>
-                    <div class="movie-card min-w-[200px] md:min-w-[280px] aspect-video rounded-md overflow-hidden bg-zinc-900" onclick="openModal('drive')">
-                        <img src="obl2.jpg" onerror="this.src='https://raw.githubusercontent.com/Zenitopy/files/main/obl2.jpg'" class="w-full h-full object-cover">
-                    </div>
-                </div>
+
+            <!-- Мой список (Избранное) -->
+            <section id="mylist-section" class="hidden">
+                <h3 class="text-xl md:text-2xl font-bold mb-4 text-red-500"><i class="fas fa-plus mr-2"></i>Мой список</h3>
+                <div id="mylist-grid" class="flex gap-4 overflow-x-auto no-scrollbar py-4 px-1"></div>
+            </section>
+
+            <!-- История просмотров -->
+            <section id="history-section" class="hidden">
+                <h3 class="text-xl md:text-2xl font-bold mb-4 text-zinc-400"><i class="fas fa-history mr-2"></i>История просмотров</h3>
+                <div id="history-grid" class="flex gap-4 overflow-x-auto no-scrollbar py-4 px-1"></div>
             </section>
         </div>
 
         <!-- Футер -->
         <footer class="p-12 border-t border-zinc-800 text-zinc-500 text-sm md:px-48">
             <div class="grid grid-cols-2 md:grid-cols-4 gap-8 mb-8">
-                <ul class="space-y-3">
-                    <li class="hover:underline cursor-pointer">Аудиодескрипция</li>
-                    <li class="hover:underline cursor-pointer">Связь с нами</li>
-                    <li class="hover:underline cursor-pointer">Конфиденциальность</li>
-                </ul>
-                <ul class="space-y-3">
-                    <li class="hover:underline cursor-pointer">Центр поддержки</li>
-                    <li class="hover:underline cursor-pointer">Вакансии</li>
-                    <li class="hover:underline cursor-pointer">Юридические уведомления</li>
-                </ul>
-                <ul class="space-y-3">
-                    <li class="hover:underline cursor-pointer">Подарочные карты</li>
-                    <li class="hover:underline cursor-pointer">Условия использования</li>
-                    <li class="hover:underline cursor-pointer">Настройки куки</li>
-                </ul>
-                <ul class="space-y-3">
-                    <li><a href="https://www.donationalerts.com/r/yusikittt" target="_blank" class="bg-orange-600 text-white px-4 py-2 rounded font-bold hover:bg-orange-700 transition-colors inline-block mt-2">Поддержать автора</a></li>
-                </ul>
+                <ul class="space-y-3"><li class="hover:underline cursor-pointer">Аудиодескрипция</li><li class="hover:underline cursor-pointer">Связь с нами</li><li class="hover:underline cursor-pointer">Конфиденциальность</li></ul>
+                <ul class="space-y-3"><li class="hover:underline cursor-pointer">Центр поддержки</li><li class="hover:underline cursor-pointer">Вакансии</li><li class="hover:underline cursor-pointer">Юридические уведомления</li></ul>
+                <ul class="space-y-3"><li class="hover:underline cursor-pointer">Подарочные карты</li><li class="hover:underline cursor-pointer">Условия использования</li><li class="hover:underline cursor-pointer">Настройки куки</li></ul>
+                <ul class="space-y-3"><li><a href="https://www.donationalerts.com/r/yusikittt" target="_blank" class="bg-orange-600 text-white px-4 py-2 rounded font-bold hover:bg-orange-700 transition-colors inline-block mt-2">Поддержать автора</a></li></ul>
             </div>
             <p>© 2026 ZENITOPY CINEMA. Все права защищены.</p>
         </footer>
     </div>
 
-    <!-- Модальное окно -->
+    <!-- Плеер -->
     <div id="video-modal" class="fixed inset-0 bg-black/95 flex items-center justify-center p-4">
-        <button onclick="closeModal()" class="absolute top-6 right-6 text-white text-3xl hover:text-red-600 z-[110]">
-            <i class="fas fa-times"></i>
-        </button>
+        <button onclick="closeModal()" class="absolute top-6 right-6 text-white text-3xl hover:text-red-600 z-[110]"><i class="fas fa-times"></i></button>
         <div class="w-full max-w-5xl aspect-video bg-black rounded-xl overflow-hidden shadow-2xl border border-zinc-800 relative">
-            <iframe id="video-frame" class="w-full h-full" src="" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen referrerpolicy="no-referrer-when-downgrade"></iframe>
+            <iframe id="video-frame" class="w-full h-full" src="" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
         </div>
     </div>
 
     <script>
-        // Логика авторизации
-        let isLoginMode = true;
+        // Данные фильмов
+        const movies = [
+            { id: 'gold', title: 'ЗОЛОТОЕ ИЗДАНИЕ', type: 'gold', img: 'https://img.youtube.com/vi/2gElGtGUXo4/maxresdefault.jpg', video: 'https://www.youtube-nocookie.com/embed/2gElGtGUXo4?autoplay=1' },
+            { id: 'new', title: 'Новый проект', type: 'standard', img: 'https://img.youtube.com/vi/VOyJHBTW9Eg/maxresdefault.jpg', video: 'https://www.youtube-nocookie.com/embed/VOyJHBTW9Eg?autoplay=1' },
+            { id: 's1', title: 'Последний приказ: Сезон 1', type: 'standard', img: 'https://raw.githubusercontent.com/Zenitopy/files/main/obl.jpg', video: 'https://www.youtube-nocookie.com/embed/SlqgmjTS-Zg?autoplay=1' },
+            { id: 's2', title: 'Последний приказ: Сезон 2', type: 'standard', img: 'https://raw.githubusercontent.com/Zenitopy/files/main/obl2.jpg', video: 'https://drive.google.com/file/d/1DkLRLgz9lBZqvs2u_B2emgJzGO_zWOVe/preview' }
+        ];
+
+        let favorites = JSON.parse(localStorage.getItem('zen_favorites')) || [];
+        let likes = JSON.parse(localStorage.getItem('zen_likes')) || [];
+        let history = JSON.parse(localStorage.getItem('zen_history')) || [];
+
+        // Авторизация
         const authScreen = document.getElementById('auth-screen');
         const mainApp = document.getElementById('main-app');
-        const authTitle = document.getElementById('auth-title');
-        const authSubmit = document.getElementById('auth-submit');
-        const authToggleBtn = document.getElementById('auth-toggle-btn');
-        const authToggleText = document.getElementById('auth-toggle-text');
         const emailInput = document.getElementById('auth-email');
         const passwordInput = document.getElementById('auth-password');
-        const userDisplay = document.getElementById('user-display');
-
-        // Проверка почты (формальная проверка на реальный вид)
-        function isValidEmail(email) {
-            return email.includes('@') && email.includes('.');
-        }
-
-        function switchAuthMode() {
-            isLoginMode = !isLoginMode;
-            authTitle.innerText = isLoginMode ? "Вход" : "Регистрация";
-            authSubmit.innerText = isLoginMode ? "Войти" : "Зарегистрироваться";
-            authToggleText.innerText = isLoginMode ? "Впервые на ZENITOPY CINEMA?" : "Уже есть аккаунт?";
-            authToggleBtn.innerText = isLoginMode ? "Зарегистрироваться" : "Войти";
-        }
-
-        authToggleBtn.onclick = switchAuthMode;
-
-        authSubmit.onclick = function() {
-            const email = emailInput.value;
-            const password = passwordInput.value;
-
-            if (!isValidEmail(email)) {
-                alert("Введите корректную почту!");
-                return;
-            }
-            if (password.length < 6) {
-                alert("Пароль должен быть не менее 6 символов!");
-                return;
-            }
-
-            if (isLoginMode) {
-                // Вход
-                const storedUser = JSON.parse(localStorage.getItem('zenitopy_user'));
-                if (storedUser && storedUser.email === email && storedUser.password === password) {
-                    completeAuth(email);
-                } else {
-                    alert("Неверная почта или пароль!");
-                }
-            } else {
-                // Регистрация
-                const newUser = { email, password };
-                localStorage.setItem('zenitopy_user', JSON.stringify(newUser));
-                alert("Регистрация успешна! Теперь войдите.");
-                switchAuthMode();
-            }
-        };
 
         function completeAuth(email) {
             authScreen.style.display = 'none';
             mainApp.classList.remove('hidden');
-            userDisplay.innerText = email;
-            // Теперь сохраняем флаг входа в localStorage, чтобы он не пропадал после перезагрузки
+            document.getElementById('user-display').innerText = email;
             localStorage.setItem('isLoggedIn', 'true');
+            renderAll();
         }
 
+        document.getElementById('auth-submit').onclick = () => {
+            const email = emailInput.value;
+            const pass = passwordInput.value;
+            if(email.includes('@') && pass.length >= 6) {
+                localStorage.setItem('zenitopy_user', JSON.stringify({email, pass}));
+                completeAuth(email);
+            } else { alert("Введите почту и пароль (мин. 6 симв)"); }
+        };
+
         function handleLogout() {
-            // Удаляем только флаг входа, данные пользователя (email/pass) оставляем в localStorage
             localStorage.removeItem('isLoggedIn');
             location.reload();
         }
 
-        // Проверка сессии при загрузке
-        window.onload = function() {
-            const isLoggedIn = localStorage.getItem('isLoggedIn');
-            const storedUser = JSON.parse(localStorage.getItem('zenitopy_user'));
-            if (isLoggedIn === 'true' && storedUser) {
-                completeAuth(storedUser.email);
-            } else {
-                authScreen.style.display = 'flex';
-            }
-        };
+        // Плеер и История
+        function openModal(videoId, title) {
+            const movie = movies.find(m => m.id === videoId || m.title === title);
+            if (!movie) return;
 
-        // Скролл шапки
-        window.addEventListener('scroll', function() {
-            const navbar = document.getElementById('navbar');
-            if (window.scrollY > 50) {
-                navbar.classList.add('scrolled');
-            } else {
-                navbar.classList.remove('scrolled');
-            }
-        });
-
-        // Плеер
-        function openModal(type) {
-            const modal = document.getElementById('video-modal');
-            const frame = document.getElementById('video-frame');
-            if (type === 'youtube') {
-                frame.src = "https://www.youtube-nocookie.com/embed/SlqgmjTS-Zg?autoplay=1&rel=0";
-            } else if (type === 'drive') {
-                frame.src = "https://drive.google.com/file/d/1DkLRLgz9lBZqvs2u_B2emgJzGO_zWOVe/preview";
-            } else if (type === 'new') {
-                frame.src = "https://www.youtube-nocookie.com/embed/VOyJHBTW9Eg?autoplay=1&rel=0";
-            } else if (type === 'gold') {
-                frame.src = "https://www.youtube-nocookie.com/embed/2gElGtGUXo4?autoplay=1&rel=0";
-            }
-            modal.style.display = 'flex';
+            document.getElementById('video-frame').src = movie.video;
+            document.getElementById('video-modal').style.display = 'flex';
             document.body.style.overflow = 'hidden';
+
+            // Сохраняем в историю (без дублей в начале)
+            history = history.filter(h => h.id !== movie.id);
+            history.unshift(movie);
+            if(history.length > 10) history.pop();
+            localStorage.setItem('zen_history', JSON.stringify(history));
+            renderAll();
         }
 
         function closeModal() {
-            const modal = document.getElementById('video-modal');
-            const frame = document.getElementById('video-frame');
-            frame.src = "";
-            modal.style.display = 'none';
+            document.getElementById('video-frame').src = "";
+            document.getElementById('video-modal').style.display = 'none';
             document.body.style.overflow = 'auto';
         }
-        
-        document.getElementById('video-modal').addEventListener('click', function(e) {
-            if (e.target === this) closeModal();
+
+        // Функции лайков и избранного
+        function toggleFavorite(id, event) {
+            event.stopPropagation();
+            if(favorites.includes(id)) favorites = favorites.filter(f => f !== id);
+            else favorites.push(id);
+            localStorage.setItem('zen_favorites', JSON.stringify(favorites));
+            renderAll();
+        }
+
+        function toggleLike(id, event) {
+            event.stopPropagation();
+            if(likes.includes(id)) likes = likes.filter(l => l !== id);
+            else likes.push(id);
+            localStorage.setItem('zen_likes', JSON.stringify(likes));
+            renderAll();
+        }
+
+        // Отрисовка
+        function createCard(movie) {
+            const isFav = favorites.includes(movie.id);
+            const isLiked = likes.includes(movie.id);
+            const goldClass = movie.type === 'gold' ? 'gold-card' : '';
+            
+            return `
+                <div class="movie-card ${goldClass} min-w-[200px] md:min-w-[280px] aspect-video rounded-md overflow-hidden bg-zinc-900 shadow-lg relative" onclick="openModal('${movie.id}')">
+                    <img src="${movie.img}" class="w-full h-full object-cover">
+                    <div class="absolute inset-0 bg-black/40 flex flex-col justify-between p-2 opacity-0 hover:opacity-100 transition-opacity">
+                        <div class="flex justify-end gap-2">
+                            <button onclick="toggleLike('${movie.id}', event)" class="text-white hover:scale-125 transition ${isLiked ? 'liked' : ''}">
+                                <i class="fas fa-thumbs-up"></i>
+                            </button>
+                            <button onclick="toggleFavorite('${movie.id}', event)" class="text-white hover:scale-125 transition ${isFav ? 'text-red-500' : ''}">
+                                <i class="${isFav ? 'fas' : 'far'} fa-plus-square"></i>
+                            </button>
+                        </div>
+                        <span class="text-[10px] font-bold border px-1 uppercase self-start bg-black/60">${movie.title}</span>
+                    </div>
+                </div>
+            `;
+        }
+
+        function renderAll(filter = "") {
+            const grid = document.getElementById('movies-grid');
+            const favGrid = document.getElementById('mylist-grid');
+            const histGrid = document.getElementById('history-grid');
+
+            // Основной список и Поиск
+            const filteredMovies = movies.filter(m => m.title.toLowerCase().includes(filter.toLowerCase()));
+            grid.innerHTML = filteredMovies.map(createCard).join('');
+
+            // Избранное
+            const favMovies = movies.filter(m => favorites.includes(m.id));
+            document.getElementById('mylist-section').classList.toggle('hidden', favMovies.length === 0);
+            favGrid.innerHTML = favMovies.map(createCard).join('');
+
+            // История
+            document.getElementById('history-section').classList.toggle('hidden', history.length === 0);
+            histGrid.innerHTML = history.map(createCard).join('');
+        }
+
+        // Поиск
+        document.getElementById('movie-search').oninput = (e) => {
+            renderAll(e.target.value);
+        };
+
+        window.onload = () => {
+            const isLoggedIn = localStorage.getItem('isLoggedIn');
+            const storedUser = JSON.parse(localStorage.getItem('zenitopy_user'));
+            if (isLoggedIn === 'true' && storedUser) completeAuth(storedUser.email);
+            else authScreen.style.display = 'flex';
+        };
+
+        window.addEventListener('scroll', () => {
+            document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 50);
         });
+
+        document.getElementById('video-modal').onclick = (e) => { if(e.target.id === 'video-modal') closeModal(); };
     </script>
 </body>
 </html>
-
